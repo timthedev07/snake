@@ -4,6 +4,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  min-width: 700px;
 }
 .row {
   display: flex;
@@ -11,9 +12,11 @@ body {
 }
 
 .cell {
-  --size: 20px;
+  --size: 3.5vw;
   width: var(--size);
   height: var(--size);
+  max-width: 25px;
+  max-height: 25px;
   margin: 3px;
 }
 

@@ -1,47 +1,27 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type Cell = "empty" | "food" | "snake";
-type GameStatus = "lost" | "playing" | "won";
 
 const SIZE = 20;
 
+const isOutOfBounds = (n: number) => {
+  return n < 0 || n > SIZE - 1;
+};
+const randInt = (max: number) => {
+  return Math.floor(Math.random() * Math.floor(max));
+};
+
 export const App = () => {
-  const [status, setStatus] = useState<GameStatus>("playing");
-  const [grids, setGrids] = useState<Cell[][]>(
+  const [grid, setGrid] = useState<Cell[][]>(
     [...Array(SIZE)].map(() => [...Array(SIZE)].map(() => "empty"))
   );
 
-  // register keys
-  useEffect(() => {
-    const keyDownHandler = (e: KeyboardEvent) => {
-      switch (e.key) {
-        case "ArrowLeft": {
-          break;
-        }
-        case "ArrowRight": {
-          break;
-        }
-        case "ArrowDown": {
-          break;
-        }
-        case "ArrowUp": {
-          break;
-        }
-      }
-    };
-    window.addEventListener("keydown", keyDownHandler);
-
-    return () => {
-      window.removeEventListener("keydown", keyDownHandler);
-    };
-  });
-
   return (
     <div>
-      {grids.map((row) => (
-        <div className="row">
-          {row.map((cell) => (
-            <div className={`cell ${cell}`}></div>
+      {grid.map((row, i) => (
+        <div key={i} className="row">
+          {row.map((cell, j) => (
+            <div key={`${i}-${j}`} className={`cell ${cell}`}></div>
           ))}
         </div>
       ))}
