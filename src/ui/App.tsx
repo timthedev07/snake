@@ -1,13 +1,79 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { LinkedList } from "src/lib/classes";
 
-export type Cell = "empty" | "food" | "snake";
+enum Direction {
+  right,
+  left,
+  down,
+  up,
+}
 const SIZE = 15;
 
 export const App = () => {
   const [grid, setGrid] = useState<number[][]>(createGrid(SIZE));
-  const [snakeCells, setSnakeCells] = useState<Set<number>>(
-    new Set([randomStartCell(grid)])
-  );
+  const start = useMemo(() => randomStartCell(grid), [grid]);
+  const [snakeCells, setSnakeCells] = useState<Set<number>>(new Set([start]));
+  const [snake, setSnake] = useState<LinkedList>(new LinkedList(start));
+  const [direction, setDirection] = useState<Direction>(Direction.right);
+
+  // register keys
+  useEffect(() => {
+    const keyDownHandler = (e: KeyboardEvent) => {
+      if (e.key.indexOf("Arrow") === -1) return;
+
+      e.preventDefault();
+
+      switch (e.key) {
+        case "ArrowLeft": {
+          setDirection(Direction.left);
+          break;
+        }
+        case "ArrowRight": {
+          setDirection(Direction.right);
+          break;
+        }
+        case "ArrowDown": {
+          setDirection(Direction.down);
+          break;
+        }
+        case "ArrowUp": {
+          setDirection(Direction.up);
+          break;
+        }
+      }
+    };
+    window.addEventListener("keydown", keyDownHandler);
+
+    return () => {
+      window.removeEventListener("keydown", keyDownHandler);
+    };
+  });
+
+  const getNewHead = (currentHead: [number, number], direction: Direction) => {
+    let res: [number, number] = [-1, -1];
+    const [x, y] = currentHead;
+
+    switch (direction) {
+      case Direction.up: {
+        res = [x - 1, y];
+        break;
+      }
+      case Direction.down: {
+        res = [x + 1, y];
+        break;
+      }
+      case Direction.left: {
+        res = [x, y - 1];
+        break;
+      }
+      case Direction.right: {
+        res = [x, y + 1];
+        break;
+      }
+    }
+
+    return res;
+  };
 
   return (
     <div>
