@@ -33,9 +33,22 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60px;
+  height: 130px;
+  flex-direction: column;
 }
 
 .lost-header .lost-heading {
   color: white;
+  margin: 10px;
+}
+
+button {
+  background-color: #4d4d4d;
+  padding: 10px;
+  width: 130px;
+  color: white;
+  border-radius: 0;
+  outline: none;
+  border: none;
+  cursor: pointer;
 }
