@@ -1,3 +1,28 @@
 body {
   background-color: #313131;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.cell {
+  --size: 20px;
+  width: var(--size);
+  height: var(--size);
+  margin: 3px;
+}
+
+.cell.empty {
+  background-color: rgb(92, 92, 92);
+}
+.cell.snake {
+  background-color: rgb(88, 160, 55);
+}
+.cell.food {
+  background-color: rgb(163, 75, 63);
 }
