@@ -40,6 +40,7 @@ export const App = () => {
   // register keys
   useEffect(() => {
     const keyDownHandler = (e: KeyboardEvent) => {
+      if (lost) return;
       if (e.key.indexOf("Arrow") === -1) return;
 
       e.preventDefault();
