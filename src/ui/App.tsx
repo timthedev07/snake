@@ -187,22 +187,24 @@ export const App = () => {
           </>
         ) : null}
       </div>
-      {grid.map((row, i) => (
-        <div key={i} className="row">
-          {row.map((cell, j) => (
-            <div
-              key={`${i}-${j}`}
-              className={`cell ${
-                snakeCells.has(cell)
-                  ? "snake"
-                  : foodCell === cell
-                  ? "food"
-                  : "empty"
-              }`}
-            ></div>
-          ))}
-        </div>
-      ))}
+      <div className="grid">
+        {grid.map((row, i) => (
+          <div key={i} className="row">
+            {row.map((cell, j) => (
+              <div
+                key={`${i}-${j}`}
+                className={`cell ${
+                  snakeCells.has(cell)
+                    ? "snake"
+                    : foodCell === cell
+                    ? "food"
+                    : "empty"
+                }`}
+              ></div>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
