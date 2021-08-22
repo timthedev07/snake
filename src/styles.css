@@ -15,9 +15,14 @@ body {
   --size: 3.5vw;
   width: var(--size);
   height: var(--size);
-  max-width: 25px;
-  max-height: 25px;
+  max-width: 30px;
+  max-height: 30px;
   margin: 3px;
+  background-color: rgb(92, 92, 92);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cell.empty {
