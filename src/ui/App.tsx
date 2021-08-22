@@ -182,7 +182,7 @@ export const App = () => {
       <div className="lost-header">
         {lost ? (
           <>
-            <h1 className="lost-heading">You Lost</h1>
+            <h1 className="lost-heading">Score: {score}</h1>
             <button onClick={() => handleRestart()}>Play Again</button>
           </>
         ) : null}
