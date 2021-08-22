@@ -80,11 +80,15 @@ export const App = () => {
 
   const handleLose = () => {
     setLost(true);
-    // setSnake(new LinkedList(initial));
-    // setSnakeCells(new Set([initial.cell]));
-    // setDirection(Direction.right);
-    // setFoodCell(snake.head.value.cell + 5);
-    // setScore(0);
+  };
+
+  const handleRestart = () => {
+    setScore(0);
+    setSnake(new LinkedList(initial));
+    setDirection(Direction.right);
+    setSnakeCells(new Set([initial.cell]));
+    setFoodCell(initial.cell + 5);
+    setLost(false);
   };
 
   const handleSnakeMovement = () => {
@@ -175,7 +179,12 @@ export const App = () => {
   return (
     <div>
       <div className="lost-header">
-        {lost ? <h1 className="lost-heading">You Lost</h1> : null}
+        {lost ? (
+          <>
+            <h1 className="lost-heading">You Lost</h1>
+            <button onClick={() => handleRestart()}>Play Again</button>
+          </>
+        ) : null}
       </div>
       {grid.map((row, i) => (
         <div key={i} className="row">
