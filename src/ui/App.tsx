@@ -21,7 +21,7 @@ export const SIZE = 15;
 
 export const App = () => {
   const [direction, setDirection] = useState<Direction>(Direction.right);
-  const [grid, setGrid] = useState<number[][]>(createGrid(SIZE));
+  const [grid] = useState<number[][]>(createGrid(SIZE));
   const initial = useMemo(() => getInitialSnakeValue(grid), [grid]);
   const [snakeCells, setSnakeCells] = useState<Set<number>>(
     new Set([initial.cell])
@@ -79,8 +79,12 @@ export const App = () => {
   });
 
   const handleLose = () => {
-    // cry();
     setLost(true);
+    // setSnake(new LinkedList(initial));
+    // setSnakeCells(new Set([initial.cell]));
+    // setDirection(Direction.right);
+    // setFoodCell(snake.head.value.cell + 5);
+    // setScore(0);
   };
 
   const handleSnakeMovement = () => {
@@ -170,6 +174,9 @@ export const App = () => {
 
   return (
     <div>
+      <div className="lost-header">
+        {lost ? <h1 className="lost-heading">You Lost</h1> : null}
+      </div>
       {grid.map((row, i) => (
         <div key={i} className="row">
           {row.map((cell, j) => (

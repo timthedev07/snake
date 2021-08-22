@@ -4,7 +4,6 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  min-width: 700px;
 }
 .row {
   display: flex;
@@ -28,4 +27,15 @@ body {
 }
 .cell.food {
   background-color: rgb(163, 75, 63);
+}
+
+.lost-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.lost-header .lost-heading {
+  color: white;
 }
