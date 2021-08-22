@@ -1,20 +1,35 @@
 import { useEffect, useMemo, useState } from "react";
-import { LinkedList } from "src/lib/classes";
+import { LinkedList, ListNode, NodeValue } from "src/lib/classes";
+import {
+  createGrid,
+  getInitialSnakeValue,
+  getNewNodeCoords,
+  getOppositeDirection,
+  isOutOfBounds,
+  randIntInRange,
+} from "src/lib/utils";
 
-enum Direction {
+export enum Direction {
   right,
   left,
   down,
   up,
+  null,
 }
-const SIZE = 15;
+export const SIZE = 15;
 
 export const App = () => {
-  const [grid, setGrid] = useState<number[][]>(createGrid(SIZE));
-  const start = useMemo(() => randomStartCell(grid), [grid]);
-  const [snakeCells, setSnakeCells] = useState<Set<number>>(new Set([start]));
-  const [snake, setSnake] = useState<LinkedList>(new LinkedList(start));
   const [direction, setDirection] = useState<Direction>(Direction.right);
+  const [grid, setGrid] = useState<number[][]>(createGrid(SIZE));
+  const initial = useMemo(() => getInitialSnakeValue(grid), [grid]);
+  const [snakeCells, setSnakeCells] = useState<Set<number>>(
+    new Set([initial.cell])
+  );
+  const [snake, setSnake] = useState<LinkedList>(new LinkedList(initial));
+  const [foodCell, setFoodCell] = useState<number>(
+    randIntInRange(0, SIZE ** 2 - 1)
+  );
+  const [score, setScore] = useState<number>(0);
 
   // register keys
   useEffect(() => {
@@ -49,34 +64,49 @@ export const App = () => {
     };
   });
 
-  const getNewHead = (currentHead: [number, number], direction: Direction) => {
-    let res: [number, number] = [-1, -1];
-    const [x, y] = currentHead;
-
-    switch (direction) {
-      case Direction.up: {
-        res = [x - 1, y];
-        break;
-      }
-      case Direction.down: {
-        res = [x + 1, y];
-        break;
-      }
-      case Direction.left: {
-        res = [x, y - 1];
-        break;
-      }
-      case Direction.right: {
-        res = [x, y + 1];
-        break;
-      }
+  const handleFoodConsumption = () => {
+    const maxCount = SIZE * SIZE - 1;
+    let nextFoodCell: number;
+    while (true) {
+      nextFoodCell = randIntInRange(0, maxCount);
+      if (!snakeCells.has(nextFoodCell) && foodCell !== nextFoodCell) break;
     }
+    setFoodCell(nextFoodCell);
+    setScore((prev) => prev + 1);
+  };
 
-    return res;
+  const handleSnakeGrowth = () => {
+    const newNodeCoords = getNewNodeCoords(snake.tail, direction);
+    // can't grow
+    if (isOutOfBounds(newNodeCoords[0], newNodeCoords[1])) {
+      return;
+    }
+    const newTailCell = grid[newNodeCoords[0]][newNodeCoords[1]];
+    const newTail = new ListNode({
+      cell: newTailCell,
+      row: newNodeCoords[0],
+      col: newNodeCoords[1],
+    });
+    const currTail = snake.tail;
+    newTail.next = currTail;
+    snake.tail = newTail;
+
+    const updatedCells = new Set(snakeCells);
+
+    updatedCells.add(newTailCell);
+
+    setSnakeCells(updatedCells);
   };
 
   return (
     <div>
+      <button
+        onClick={() => {
+          handleSnakeGrowth();
+        }}
+      >
+        Grow
+      </button>
       {grid.map((row, i) => (
         <div key={i} className="row">
           {row.map((cell, j) => (
@@ -89,31 +119,4 @@ export const App = () => {
       ))}
     </div>
   );
-};
-
-const isOutOfBounds = (n: number) => {
-  return n < 0 || n > SIZE - 1;
-};
-const randInt = (max: number) => {
-  return Math.floor(Math.random() * Math.floor(max));
-};
-const createGrid = (n: number): number[][] => {
-  let count = 0;
-  let board: number[][] = [];
-  for (let i = 0; i < n; ++i) {
-    let row: number[] = [];
-    for (let j = 0; j < n; ++j) {
-      row.push(count++);
-    }
-    board.push(row);
-  }
-  return board;
-};
-
-const randomStartCell = (grid: number[][]) => {
-  const m = grid.length / 2;
-  const x = Math.round(Math.random() * m);
-  const y = Math.round(Math.random() * m);
-
-  return grid[Math.max(3, x)][Math.max(3, y)];
 };

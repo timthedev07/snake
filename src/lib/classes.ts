@@ -1,7 +1,13 @@
+export interface NodeValue {
+  row: number;
+  col: number;
+  cell: number;
+}
+
 export class ListNode {
-  value: number;
+  value: NodeValue;
   next: ListNode | undefined;
-  constructor(value: number, next?: ListNode) {
+  constructor(value: NodeValue, next?: ListNode) {
     this.value = value;
     this.next = next;
   }
@@ -11,7 +17,7 @@ export class LinkedList {
   head: ListNode;
   tail: ListNode;
 
-  constructor(value: number) {
+  constructor(value: NodeValue) {
     const node = new ListNode(value);
     this.head = node;
     this.tail = node;
