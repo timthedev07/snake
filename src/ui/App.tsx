@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Grid } from "./Grid";
 
 export const App = () => {
   // register keys
@@ -27,9 +26,5 @@ export const App = () => {
     };
   });
 
-  return (
-    <>
-      <Grid dimensions={{ rows: 30, cols: 100 }} />
-    </>
-  );
+  return <></>;
 };
