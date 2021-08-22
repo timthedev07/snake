@@ -46,19 +46,27 @@ export const App = () => {
 
       switch (e.key) {
         case "ArrowLeft": {
-          setDirection(Direction.left);
+          setDirection((prev) =>
+            prev !== Direction.right ? Direction.left : prev
+          );
           break;
         }
         case "ArrowRight": {
-          setDirection(Direction.right);
+          setDirection((prev) =>
+            prev !== Direction.left ? Direction.right : prev
+          );
           break;
         }
         case "ArrowDown": {
-          setDirection(Direction.down);
+          setDirection((prev) =>
+            prev !== Direction.up ? Direction.down : prev
+          );
           break;
         }
         case "ArrowUp": {
-          setDirection(Direction.up);
+          setDirection((prev) =>
+            prev !== Direction.down ? Direction.up : prev
+          );
           break;
         }
       }
