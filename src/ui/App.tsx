@@ -19,6 +19,7 @@ export enum Direction {
 }
 export const SIZE = 15;
 export const NUM_FOOD = 3;
+const INITIAL_TICK_DELAY = 200;
 
 export const App = () => {
   const [direction, setDirection] = useState<Direction>(Direction.right);
@@ -31,7 +32,7 @@ export const App = () => {
   const [foodCell, setFoodCell] = useState<number>(snake.head.value.cell + 3);
   const [score, setScore] = useState<number>(0);
   const [lost, setLost] = useState<boolean>(false);
-  const [tickDelay, setTickDelay] = useState<number>(150);
+  const [tickDelay, setTickDelay] = useState<number>(INITIAL_TICK_DELAY);
 
   useInterval(() => {
     handleSnakeMovement();
@@ -84,7 +85,7 @@ export const App = () => {
 
   const handleLose = () => {
     setLost(true);
-    setTickDelay(150);
+    setTickDelay(INITIAL_TICK_DELAY);
   };
 
   const handleRestart = () => {
