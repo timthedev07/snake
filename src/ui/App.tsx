@@ -29,7 +29,11 @@ export const App = () => {
     new Set([initial.cell])
   );
   const [snake, setSnake] = useState<LinkedList>(new LinkedList(initial));
-  const [foodCell, setFoodCell] = useState<number>(snake.head.value.cell + 3);
+  const initialFoodCells = useMemo(
+    () => new Set([initial.cell + 3, initial.cell + 8, initial.cell - 14]),
+    [initial]
+  );
+  const [foodCells, setFoodCells] = useState<Set<number>>(initialFoodCells);
   const [score, setScore] = useState<number>(0);
   const [lost, setLost] = useState<boolean>(false);
   const [tickDelay, setTickDelay] = useState<number>(INITIAL_TICK_DELAY);
@@ -93,7 +97,7 @@ export const App = () => {
     setSnake(new LinkedList(initial));
     setDirection(Direction.right);
     setSnakeCells(new Set([initial.cell]));
-    setFoodCell(initial.cell + 5);
+    setFoodCells(initialFoodCells);
     setLost(false);
   };
 
@@ -140,22 +144,31 @@ export const App = () => {
     if (snake.tail === null) snake.tail = snake.head;
 
     // if head is at food(aka, consumed the food)
-    if (newHeadCell === foodCell) {
+    if (foodCells.has(newHeadCell)) {
       handleSnakeGrowth(newSnakeCells);
-      handleFoodConsumption(newSnakeCells);
+      handleFoodConsumption(newSnakeCells, newHeadCell);
     }
 
     setSnakeCells(newSnakeCells);
   };
 
-  const handleFoodConsumption = (newSnakeCells: Set<number>) => {
+  const handleFoodConsumption = (
+    newSnakeCells: Set<number>,
+    eatenCell: number
+  ) => {
     const maxCount = SIZE * SIZE - 1;
+    // generate a new food cell
     let nextFoodCell: number;
     while (true) {
       nextFoodCell = randIntInRange(0, maxCount);
-      if (!newSnakeCells.has(nextFoodCell) && foodCell !== nextFoodCell) break;
+      if (!newSnakeCells.has(nextFoodCell) && !foodCells.has(nextFoodCell))
+        break;
     }
-    setFoodCell(nextFoodCell);
+
+    let newFoodCells = new Set(foodCells);
+    newFoodCells.delete(eatenCell);
+    newFoodCells.add(nextFoodCell);
+    setFoodCells(newFoodCells);
     setScore((prev) => prev + 1);
     setTickDelay((prev) => prev - Math.min(15, snakeCells.size));
   };
@@ -202,7 +215,7 @@ export const App = () => {
                 className={`cell ${
                   snakeCells.has(cell)
                     ? "snake"
-                    : foodCell === cell
+                    : foodCells.has(cell)
                     ? "food"
                     : "empty"
                 }`}
