@@ -18,6 +18,7 @@ export enum Direction {
   null,
 }
 export const SIZE = 15;
+export const NUM_FOOD = 3;
 
 export const App = () => {
   const [direction, setDirection] = useState<Direction>(Direction.right);
@@ -30,12 +31,11 @@ export const App = () => {
   const [foodCell, setFoodCell] = useState<number>(snake.head.value.cell + 3);
   const [score, setScore] = useState<number>(0);
   const [lost, setLost] = useState<boolean>(false);
-
-  console.log(foodCell);
+  const [tickDelay, setTickDelay] = useState<number>(150);
 
   useInterval(() => {
     handleSnakeMovement();
-  }, 150);
+  }, tickDelay);
 
   // register keys
   useEffect(() => {
@@ -152,6 +152,7 @@ export const App = () => {
     }
     setFoodCell(nextFoodCell);
     setScore((prev) => prev + 1);
+    setTickDelay((prev) => prev - Math.min(15, snakeCells.size));
   };
 
   const handleSnakeGrowth = (newSnakeCells: Set<number>) => {
