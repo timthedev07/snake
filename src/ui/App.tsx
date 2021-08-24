@@ -39,6 +39,9 @@ export const App = () => {
 
   // register keys
   useEffect(() => {
+    let scrollingElement = document.scrollingElement || document.body;
+    scrollingElement.scrollTop = scrollingElement.scrollHeight;
+
     const keyDownHandler = (e: KeyboardEvent) => {
       if (lost) return;
       if (e.key.indexOf("Arrow") === -1) return;
