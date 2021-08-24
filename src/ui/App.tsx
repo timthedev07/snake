@@ -84,6 +84,7 @@ export const App = () => {
 
   const handleLose = () => {
     setLost(true);
+    setTickDelay(150);
   };
 
   const handleRestart = () => {
