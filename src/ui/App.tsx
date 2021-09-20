@@ -17,7 +17,7 @@ export enum Direction {
   up,
   null,
 }
-export const SIZE = 15;
+export const SIZE = 30;
 export const NUM_FOOD = 3;
 const INITIAL_TICK_DELAY = 200;
 
