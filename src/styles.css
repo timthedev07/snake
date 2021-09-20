@@ -16,8 +16,8 @@ body {
   height: var(--size);
   max-width: 30px;
   max-height: 30px;
-  min-width: 6px;
-  min-height: 6px;
+  min-width: 13px;
+  min-height: 13px;
   margin: 3px;
 }
 
