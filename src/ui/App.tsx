@@ -18,7 +18,8 @@ export enum Direction {
   null,
 }
 export const SIZE = 30;
-export const NUM_FOOD = 3;
+export const NUM_FOOD = 10;
+const MAX_CELL_COUNT = SIZE * SIZE - 1;
 const INITIAL_TICK_DELAY = 200;
 
 export const App = () => {
@@ -29,10 +30,17 @@ export const App = () => {
     new Set([initial.cell])
   );
   const [snake, setSnake] = useState<LinkedList>(new LinkedList(initial));
-  const initialFoodCells = useMemo(
-    () => new Set([initial.cell + 3, initial.cell + 8, initial.cell - 14]),
-    [initial]
-  );
+  const initialFoodCells = useMemo(() => {
+    const res = new Set<number>();
+    for (let i = 0; i < NUM_FOOD; ++i) {
+      let nextFoodCell = randIntInRange(0, MAX_CELL_COUNT);
+      while (res.has(nextFoodCell)) {
+        nextFoodCell = randIntInRange(0, MAX_CELL_COUNT);
+      }
+      res.add(nextFoodCell);
+    }
+    return res;
+  }, []);
   const [foodCells, setFoodCells] = useState<Set<number>>(initialFoodCells);
   const [score, setScore] = useState<number>(0);
   const [lost, setLost] = useState<boolean>(false);
@@ -156,11 +164,10 @@ export const App = () => {
     newSnakeCells: Set<number>,
     eatenCell: number
   ) => {
-    const maxCount = SIZE * SIZE - 1;
     // generate a new food cell
     let nextFoodCell: number;
     while (true) {
-      nextFoodCell = randIntInRange(0, maxCount);
+      nextFoodCell = randIntInRange(0, MAX_CELL_COUNT);
       if (!newSnakeCells.has(nextFoodCell) && !foodCells.has(nextFoodCell))
         break;
     }
