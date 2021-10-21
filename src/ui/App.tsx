@@ -170,7 +170,7 @@ export const App = () => {
     newFoodCells.add(nextFoodCell);
     setFoodCells(newFoodCells);
     setScore((prev) => prev + 1);
-    setTickDelay(INITIAL_TICK_DELAY - Math.min(9, snakeCells.size));
+    setTickDelay(INITIAL_TICK_DELAY - Math.min(50, snakeCells.size * 1.5));
   };
 
   const handleSnakeGrowth = (newSnakeCells: Set<number>) => {
