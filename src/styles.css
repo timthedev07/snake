@@ -11,7 +11,7 @@ body {
 }
 
 .cell {
-  --size: 0.5vw;
+  --size: 0.3vw;
   width: var(--size);
   height: var(--size);
   max-width: 30px;
