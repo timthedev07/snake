@@ -18,7 +18,7 @@ export enum Direction {
   null,
 }
 export const SIZE = 30;
-export const NUM_FOOD = 10;
+export const NUM_FOOD = 20;
 const MAX_CELL_COUNT = SIZE * SIZE - 1;
 const INITIAL_TICK_DELAY = 200;
 
