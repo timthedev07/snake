@@ -11,13 +11,13 @@ body {
 }
 
 .cell {
-  --size: 0.3vw;
+  --size: 0.15vw;
   width: var(--size);
   height: var(--size);
   max-width: 30px;
   max-height: 30px;
-  min-width: 20px;
-  min-height: 20px;
+  min-width: 15px;
+  min-height: 15px;
   margin: 3px;
 }
 
@@ -26,6 +26,7 @@ body {
 }
 .cell.snake {
   background-color: rgb(88, 160, 55);
+  box-shadow: 0 0 max(30px, 0.15vw) rgba(255, 255, 0, 0.473);
 }
 .cell.food {
   background-color: rgb(163, 75, 63);
