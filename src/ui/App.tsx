@@ -34,7 +34,7 @@ export const App = () => {
   const [snake, setSnake] = useState<LinkedList>(new LinkedList(initial));
   const [initialFoodCells, setInitialFoodCells] = useState(() => {
     return getInitialFoodCells();
-  }, []);
+  });
   const [foodCells, setFoodCells] = useState<Set<number>>(initialFoodCells);
   const [score, setScore] = useState<number>(0);
   const [tickDelay, setTickDelay] = useState<number>(INITIAL_TICK_DELAY);
