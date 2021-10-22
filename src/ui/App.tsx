@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { LinkedList, ListNode } from "src/lib/classes";
 import {
   createGrid,
+  getInitialFoodCells,
   getInitialSnakeValue,
   getNewNodeCoords,
   getNextCoordsInDirection,
@@ -19,7 +20,7 @@ export enum Direction {
 }
 export const SIZE = 30;
 export const NUM_FOOD = 20;
-const MAX_CELL_COUNT = SIZE * SIZE - 1;
+export const MAX_CELL_COUNT = SIZE * SIZE - 1;
 const INITIAL_TICK_DELAY = 200;
 
 export const App = () => {
@@ -31,17 +32,9 @@ export const App = () => {
     new Set([initial.cell])
   );
   const [snake, setSnake] = useState<LinkedList>(new LinkedList(initial));
-  const initialFoodCells = useMemo(() => {
-    const res = new Set<number>();
-    for (let i = 0; i < NUM_FOOD; ++i) {
-      let nextFoodCell = randIntInRange(0, MAX_CELL_COUNT);
-      while (res.has(nextFoodCell)) {
-        nextFoodCell = randIntInRange(0, MAX_CELL_COUNT);
-      }
-      res.add(nextFoodCell);
-    }
-    return res;
-  }, [lost]);
+  const [initialFoodCells, setInitialFoodCells] = useState(() => {
+    return getInitialFoodCells();
+  }, []);
   const [foodCells, setFoodCells] = useState<Set<number>>(initialFoodCells);
   const [score, setScore] = useState<number>(0);
   const [tickDelay, setTickDelay] = useState<number>(INITIAL_TICK_DELAY);
@@ -97,6 +90,7 @@ export const App = () => {
 
   const handleLose = () => {
     setLost(true);
+    setInitialFoodCells(getInitialFoodCells());
     setTickDelay(INITIAL_TICK_DELAY);
   };
 

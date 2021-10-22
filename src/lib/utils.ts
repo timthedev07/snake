@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { SIZE, Direction } from "src/ui/App";
+import { SIZE, Direction, NUM_FOOD, MAX_CELL_COUNT } from "src/ui/App";
 import { ListNode, NodeValue } from "./classes";
 
 export const randIntInRange = (min: number, max: number) => {
@@ -130,4 +130,16 @@ export const useInterval = (callback: () => any, delay: number) => {
 
     return () => {};
   }, [delay]);
+};
+
+export const getInitialFoodCells = () => {
+  const res = new Set<number>();
+  for (let i = 0; i < NUM_FOOD; ++i) {
+    let nextFoodCell = randIntInRange(0, MAX_CELL_COUNT);
+    while (res.has(nextFoodCell)) {
+      nextFoodCell = randIntInRange(0, MAX_CELL_COUNT);
+    }
+    res.add(nextFoodCell);
+  }
+  return res;
 };
