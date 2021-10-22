@@ -86,7 +86,7 @@ export const App = () => {
     return () => {
       window.removeEventListener("keydown", keyDownHandler);
     };
-  });
+  }, [lost]);
 
   const handleLose = () => {
     setLost(true);
