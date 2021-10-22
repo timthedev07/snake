@@ -25,6 +25,7 @@ const INITIAL_TICK_DELAY = 200;
 export const App = () => {
   const [direction, setDirection] = useState<Direction>(Direction.right);
   const [grid] = useState<number[][]>(createGrid(SIZE));
+  const [lost, setLost] = useState<boolean>(false);
   const initial = useMemo(() => getInitialSnakeValue(grid), [grid]);
   const [snakeCells, setSnakeCells] = useState<Set<number>>(
     new Set([initial.cell])
@@ -40,10 +41,9 @@ export const App = () => {
       res.add(nextFoodCell);
     }
     return res;
-  }, []);
+  }, [lost]);
   const [foodCells, setFoodCells] = useState<Set<number>>(initialFoodCells);
   const [score, setScore] = useState<number>(0);
-  const [lost, setLost] = useState<boolean>(false);
   const [tickDelay, setTickDelay] = useState<number>(INITIAL_TICK_DELAY);
 
   useInterval(() => {
